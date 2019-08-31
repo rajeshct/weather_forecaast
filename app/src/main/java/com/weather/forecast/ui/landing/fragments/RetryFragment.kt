@@ -1,6 +1,7 @@
 package com.weather.forecast.ui.landing.fragments
 
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.weather.forecast.R
 import com.weather.forecast.databinding.FragmentRetryBinding
 import com.weather.forecast.ui.base.BaseFragment
@@ -23,6 +24,7 @@ class RetryFragment : BaseFragment<FragmentRetryBinding>() {
         rootViewModel.getTriggerEventToView().observe(viewLifecycleOwner, Observer {
             when (it) {
                 RETRY -> {
+                    findNavController().navigate(R.id.action_retryFragment_to_landingFragment)
                     rootViewModel.setActionForUi(INVALID_ACTION)
                 }
             }

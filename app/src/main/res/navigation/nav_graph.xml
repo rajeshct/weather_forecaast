@@ -13,8 +13,7 @@
 
         <action
             android:id="@+id/action_landingFragment_to_loadingFragment"
-            app:destination="@id/loadingFragment"
-            app:popUpTo="@+id/landingFragment" />
+            app:destination="@id/loadingFragment" />
 
     </fragment>
 
@@ -34,5 +33,9 @@
         android:id="@+id/retryFragment"
         android:name="com.weather.forecast.ui.landing.fragments.RetryFragment"
         android:label="RetryFragment"
-        tools:layout="@layout/fragment_retry" />
+        tools:layout="@layout/fragment_retry">
+        <action
+            android:id="@+id/action_retryFragment_to_landingFragment"
+            app:destination="@id/landingFragment" />
+    </fragment>
 </navigation>
