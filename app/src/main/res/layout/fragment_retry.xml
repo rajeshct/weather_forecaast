@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_cell"
             android:layout_marginRight="@dimen/margin_cell"
-            android:fontFamily="@font/roboto_thin"
+            android:fontFamily="sans-serif-thin"
             android:gravity="start"
             android:text="@string/label_error_fail"
             android:textColor="@android:color/white"

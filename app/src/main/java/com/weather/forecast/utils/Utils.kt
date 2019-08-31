@@ -27,7 +27,7 @@ fun getTemperatureWithCelceius(temp: Double?): SpannableStringBuilder? {
     if (temp == null) {
         return null
     }
-    val formattedString = temp.roundToInt().toString() + "0"
+    val formattedString = temp.roundToInt().toString() + "o"
     val spannableStringBuilder = SpannableStringBuilder(formattedString)
 
     spannableStringBuilder.setSpan(
@@ -38,7 +38,7 @@ fun getTemperatureWithCelceius(temp: Double?): SpannableStringBuilder? {
     )
 
     spannableStringBuilder.setSpan(
-        RelativeSizeSpan(0.35f),
+        RelativeSizeSpan(0.5f),
         formattedString.length - 1,
         formattedString.length,
         Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
