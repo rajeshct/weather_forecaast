@@ -14,11 +14,9 @@ import com.weather.forecast.repository.WeatherRepository
 import com.weather.forecast.ui.base.BaseViewModel
 import com.weather.forecast.ui.landing.adapter.LandingAdapter
 import com.weather.forecast.ui.root.RootViewModel
-import com.weather.forecast.utils.ERROR_NO_RESPONSE
-import com.weather.forecast.utils.REFRESH_UI
-import com.weather.forecast.utils.SHOW_LOADING
-import com.weather.forecast.utils.getDayFromDate
+import com.weather.forecast.utils.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -67,9 +65,7 @@ class LandingViewModel(application: Application, private val weatherRepository: 
 
     fun fetchDataFromServer(location: String) {
         if (listingData.isEmpty()) {
-
             rootViewModel.setActionForUi(SHOW_LOADING)
-
             launch(coroutineContext) {
                 val baseResponse = weatherRepository.getWeatherInfo(location)
                 currentTemperature = baseResponse.body()?.current?.feelslikeC
@@ -77,8 +73,9 @@ class LandingViewModel(application: Application, private val weatherRepository: 
                 updateAdapter(baseResponse.body())
                 notifyChange()
                 rootViewModel.setActionForUi(REFRESH_UI)
+                delay(900)
+                setActionForUi(SLIDE_UP_ANIMATION)
             }
-
         }
     }
 

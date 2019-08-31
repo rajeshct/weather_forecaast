@@ -60,7 +60,7 @@ class LoadingFragment : BaseFragment<FragmentLoadingBinding>() {
     }
 
     private fun closeLoaderAfterDelay() {
-        handler.postDelayed(runnable, 5000L)
+        handler.postDelayed(runnable, 1000L)
     }
 
     override fun getLayout(): Int {
