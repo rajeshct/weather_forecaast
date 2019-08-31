@@ -8,7 +8,7 @@ import retrofit2.Response
 class WeatherRepository(private val serviceApi: ApiService) {
 
     suspend fun getWeatherInfo(location: String): Response<BaseResponse> {
-        return serviceApi.getWeatherForeCastAsync(BuildConfig.WEATHER_API_KEY, location, "7")
+        return serviceApi.getWeatherForeCastAsync(BuildConfig.WEATHER_API_KEY, location, "4")
     }
 
 }

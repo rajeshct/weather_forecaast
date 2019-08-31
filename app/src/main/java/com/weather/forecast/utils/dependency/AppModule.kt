@@ -1,10 +1,12 @@
 package com.weather.forecast.utils.dependency
 
+import android.os.Handler
 import android.util.Log
 import com.weather.forecast.BuildConfig
 import com.weather.forecast.network.ApiService
 import com.weather.forecast.repository.WeatherRepository
 import com.weather.forecast.ui.landing.view_model.LandingViewModel
+import com.weather.forecast.ui.landing.view_model.LoadingViewModel
 import com.weather.forecast.ui.root.RootViewModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -19,10 +21,19 @@ import java.util.concurrent.TimeUnit
 
 val remoteDataSourceModule = module {
 
+    // Getting handler instance
+    single {
+        Handler()
+    }
 
     // Getting landing view model
     viewModel {
         RootViewModel(androidApplication())
+    }
+
+    // Getting loading view model
+    viewModel {
+        LoadingViewModel(androidApplication())
     }
 
     // Getting debug interceptor

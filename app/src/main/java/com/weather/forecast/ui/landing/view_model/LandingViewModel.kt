@@ -44,11 +44,7 @@ fun setLandingAdapter(recyclerView: RecyclerView, listingData: List<LandingData>
 
 class LandingViewModel(application: Application, private val weatherRepository: WeatherRepository) :
     BaseViewModel(application) {
-    private var listingData: MutableList<LandingData> = mutableListOf();
-
-    init {
-        fetchDataFromServer("delhi")
-    }
+    private val listingData: MutableList<LandingData> = mutableListOf()
 
     private lateinit var rootViewModel: RootViewModel
 
@@ -69,9 +65,11 @@ class LandingViewModel(application: Application, private val weatherRepository: 
             notifyPropertyChanged(BR.currentLocation)
         }
 
-    private fun fetchDataFromServer(location: String) {
+    fun fetchDataFromServer(location: String) {
         if (listingData.isEmpty()) {
-            setActionForUi(SHOW_LOADING)
+
+            rootViewModel.setActionForUi(SHOW_LOADING)
+
             launch(coroutineContext) {
                 val baseResponse = weatherRepository.getWeatherInfo(location)
                 currentTemperature = baseResponse.body()?.current?.feelslikeC
@@ -80,6 +78,7 @@ class LandingViewModel(application: Application, private val weatherRepository: 
                 notifyChange()
                 rootViewModel.setActionForUi(REFRESH_UI)
             }
+
         }
     }
 
