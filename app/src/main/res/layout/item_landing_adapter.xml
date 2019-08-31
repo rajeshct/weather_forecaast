@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import
+            alias="Utils"
+            type="com.weather.forecast.utils.UtilsKt" />
+
+        <variable
+            name="obj"
+            type="com.weather.forecast.data.LandingData" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/row_height">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_day"
+            style="@style/Item_row_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{obj.day}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textView2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Monday" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textView2"
+            style="@style/Item_row_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{Utils.getTemperatureWithAppendCelceius(obj.temperature)}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_day"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="27C" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

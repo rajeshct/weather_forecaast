@@ -1,0 +1,42 @@
+{
+    "location": {
+        "name": "Delhi",
+        "region": "Delhi",
+        "country": "India",
+        "lat": 28.67,
+        "lon": 77.22,
+        "tz_id": "Asia/Kolkata",
+        "localtime_epoch": 1567129979,
+        "localtime": "2019-08-30 7:22"
+    },
+    "current": {
+        "last_updated_epoch": 1567129535,
+        "last_updated": "2019-08-30 07:15",
+        "temp_c": 28.0,
+        "temp_f": 82.4,
+        "is_day": 1,
+        "condition": {
+            "text": "Mist",
+            "icon": "//cdn.apixu.com/weather/64x64/day/143.png",
+            "code": 1030
+        },
+        "wind_mph": 4.3,
+        "wind_kph": 6.8,
+        "wind_degree": 40,
+        "wind_dir": "NE",
+        "pressure_mb": 1005.0,
+        "pressure_in": 30.2,
+        "precip_mm": 0.0,
+        "precip_in": 0.0,
+        "humidity": 79,
+        "cloud": 50,
+        "feelslike_c": 32.2,
+        "feelslike_f": 89.9,
+        "vis_km": 3.0,
+        "vis_miles": 1.0,
+        "uv": 6.0,
+        "gust_mph": 4.7,
+        "gust_kph": 7.6
+    }
+}
+}

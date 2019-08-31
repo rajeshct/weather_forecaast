@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_temperature_top">56dp</dimen>
+    <dimen name="margin_from_location">62dp</dimen>
+    <dimen name="margin_cell">16dp</dimen>
+    <dimen name="row_height">80dp</dimen>
+    <dimen name="margin_error_retry">44dp</dimen>
+</resources>

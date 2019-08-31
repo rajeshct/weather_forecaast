@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/landingFragment">
+
+    <fragment
+        android:id="@+id/landingFragment"
+        android:name="com.weather.forecast.ui.landing.fragments.LandingFragment"
+        android:label="LandingFragment"
+        tools:layout="@layout/fragment_landing">
+
+        <action
+            android:id="@+id/action_landingFragment_to_loadingFragment"
+            app:destination="@id/loadingFragment"
+            app:popUpTo="@+id/landingFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/loadingFragment"
+        android:name="com.weather.forecast.ui.landing.fragments.LoadingFragment"
+        android:label="LoadingFragment"
+        tools:layout="@layout/fragment_loading">
+
+        <action
+            android:id="@+id/action_loadingFragment_to_retryFragment"
+            app:destination="@id/retryFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/retryFragment"
+        android:name="com.weather.forecast.ui.landing.fragments.RetryFragment"
+        android:label="RetryFragment"
+        tools:layout="@layout/fragment_retry" />
+</navigation>
