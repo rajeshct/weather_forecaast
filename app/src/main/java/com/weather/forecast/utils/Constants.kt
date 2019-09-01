@@ -7,4 +7,5 @@ const val REFRESH_UI = 2
 const val ERROR_NO_RESPONSE = 3
 const val SHOW_LOADING = 4
 const val SLIDE_UP_ANIMATION = 5
+const val API_FAILURE = "Parsing/invalid error from server"
 const val INVALID_ACTION = -1

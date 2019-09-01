@@ -68,9 +68,9 @@ class LandingViewModel(application: Application, private val weatherRepository: 
             rootViewModel.setActionForUi(SHOW_LOADING)
             launch(coroutineContext) {
                 val baseResponse = weatherRepository.getWeatherInfo(location)
-                currentTemperature = baseResponse.body()?.current?.feelslikeC
-                currentLocation = baseResponse.body()?.location?.region
-                updateAdapter(baseResponse.body())
+                currentTemperature = baseResponse.current.feelslikeC
+                currentLocation = baseResponse.location.region
+                updateAdapter(baseResponse)
                 notifyChange()
                 rootViewModel.setActionForUi(REFRESH_UI)
                 delay(900)
@@ -79,18 +79,16 @@ class LandingViewModel(application: Application, private val weatherRepository: 
         }
     }
 
-    private suspend fun updateAdapter(body: BaseResponse?) {
+    private suspend fun updateAdapter(body: BaseResponse) {
         withContext(Dispatchers.IO) {
-            val foreCastDay = body?.forecast?.forecastday
-            if (foreCastDay != null) {
-                for (item in foreCastDay) {
-                    listingData.add(
-                        LandingData(
-                            getDayFromDate(item.date),
-                            item.day.avgtempC
-                        )
+            val foreCastDay = body.forecast.forecastday
+            for (item in foreCastDay) {
+                listingData.add(
+                    LandingData(
+                        getDayFromDate(item.date),
+                        item.day.avgtempC
                     )
-                }
+                )
             }
         }
     }
