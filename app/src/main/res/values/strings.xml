@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">WeatherForeCast</string>
+    <string name="label_error_fail">Something went wrong at our end!</string>
+    <string name="retry">Retry</string>
+    <string name="error_no_internet">Check internet connection</string>
+</resources>
