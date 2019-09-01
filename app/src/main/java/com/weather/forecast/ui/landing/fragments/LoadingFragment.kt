@@ -54,7 +54,7 @@ class LoadingFragment : BaseFragment<FragmentLoadingBinding>() {
 
 
     private fun closeLoading() {
-        findNavController().popBackStack(R.id.landingFragment, false)
+        findNavController().popBackStack()
         rootViewModel.setActionForUi(INVALID_ACTION)
         handler.removeCallbacks(runnable)
     }
