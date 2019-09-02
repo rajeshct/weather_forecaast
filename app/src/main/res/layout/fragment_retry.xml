@@ -4,11 +4,9 @@
 
     <data>
 
-        <import alias="CONSTANTS" type="com.weather.forecast.utils.ConstantsKt" />
-
         <variable
-            name="rootViewModel"
-            type="com.weather.forecast.ui.root.RootViewModel" />
+            name="viewModel"
+            type="com.weather.forecast.ui.landing.view_model.RetryViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,9 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_error_retry"
-            android:minWidth="@dimen/btn_min_width"
             android:background="@color/light_black_3"
-            android:onClick="@{()->rootViewModel.setActionForUi(CONSTANTS.RETRY)}"
+            android:minWidth="@dimen/btn_min_width"
+            android:onClick="@{()->viewModel.onRetryClick()}"
             android:text="@string/retry"
             android:textColor="@android:color/white"
             app:layout_constraintEnd_toEndOf="@+id/tv_error"

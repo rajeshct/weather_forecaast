@@ -11,7 +11,7 @@
             type="com.weather.forecast.utils.UtilsKt" />
 
         <variable
-            name="landingViewModel"
+            name="viewModel"
             type="com.weather.forecast.ui.landing.view_model.LandingViewModel" />
     </data>
 
@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_temperature_top"
             android:fontFamily="sans-serif-black"
-            android:text="@{Utils.getTemperatureWithCelceius(landingViewModel.currentTemperature)}"
+            android:text="@{Utils.getTemperatureWithCelceius(viewModel.currentTemperature)}"
             android:textColor="@color/light_black_1"
             android:textSize="96sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-thin"
-            android:text="@{landingViewModel.currentLocation}"
+            android:text="@{viewModel.currentLocation}"
             android:textColor="@color/light_black_2"
             android:textSize="36sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -64,7 +64,7 @@
                 android:layout_marginTop="@dimen/margin_cell"
                 android:layout_marginRight="@dimen/margin_cell"
                 android:overScrollMode="never"
-                bind:setAdapter="@{landingViewModel.getListingData()}" />
+                bind:setAdapter="@{viewModel.getListingData()}" />
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

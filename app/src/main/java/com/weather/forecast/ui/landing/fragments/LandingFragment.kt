@@ -1,41 +1,72 @@
 package com.weather.forecast.ui.landing.fragments
 
+import android.location.Geocoder
+import android.location.Location
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.weather.forecast.R
 import com.weather.forecast.databinding.FragmentLandingBinding
+import com.weather.forecast.ui.base.BaseActivity
 import com.weather.forecast.ui.base.BaseFragment
 import com.weather.forecast.ui.landing.view_model.LandingViewModel
 import com.weather.forecast.ui.root.RootViewModel
-import com.weather.forecast.utils.INVALID_ACTION
-import com.weather.forecast.utils.SHOW_LOADING
-import com.weather.forecast.utils.SLIDE_UP_ANIMATION
+import com.weather.forecast.utils.*
 import kotlinx.android.synthetic.main.fragment_landing.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.util.*
 
 
-class LandingFragment : BaseFragment<FragmentLandingBinding>() {
+class LandingFragment : BaseFragment<FragmentLandingBinding, LandingViewModel>() {
 
     private val landingViewModel: LandingViewModel by viewModel()
 
     private val rootViewModel: RootViewModel by sharedViewModel()
 
-
     override fun getLayout(): Int {
         return R.layout.fragment_landing
     }
 
+    override fun getViewModel(): LandingViewModel {
+        return landingViewModel
+    }
+
     override fun actionAfterViewCreated() {
-        getBinding().landingViewModel = landingViewModel
         getBinding().executePendingBindings()
         landingViewModel.setRootViewModel(rootViewModel)
         observeFragmentChanges()
         observeActivityChanges()
-        landingViewModel.fetchDataFromServer("Bengaluru")
+        callPermission()
     }
 
+    private fun callPermission() {
+        context?.let {
+            if (isInternetConnectionAvailable(it)) {
+                (it as BaseActivity).requestPermission(
+                    PermissionConstants.PERMISSION_LOCATION_PARAM,
+                    PERMISSION_LOCATION
+                    , false
+                )
+            } else {
+                findNavController().navigate(R.id.action_landingFragment_to_retryFragment)
+            }
+        }
+    }
+
+    override fun onPermissionGranted(requestCode: Int) {
+        getUserLocation()
+    }
+
+    private fun getUserLocation() {
+        (context as BaseActivity).getUserLocation()
+    }
+
+    override fun currentLocation(location: Location) {
+        landingViewModel.actionAfterHavingLocation(
+            location, Geocoder(context, Locale.getDefault())
+        )
+    }
 
     private fun observeActivityChanges() {
         rootViewModel.getTriggerEventToView().observe(viewLifecycleOwner, Observer {
@@ -43,6 +74,9 @@ class LandingFragment : BaseFragment<FragmentLandingBinding>() {
                 SHOW_LOADING -> {
                     findNavController().navigate(R.id.action_landingFragment_to_loadingFragment)
                     rootViewModel.setActionForUi(INVALID_ACTION)
+                }
+                PERMISSION_LOCATION_GRANTED -> {
+                    getUserLocation()
                 }
             }
         })

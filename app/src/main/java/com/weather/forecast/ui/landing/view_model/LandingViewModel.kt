@@ -1,6 +1,8 @@
 package com.weather.forecast.ui.landing.view_model
 
 import android.app.Application
+import android.location.Geocoder
+import android.location.Location
 import android.widget.LinearLayout
 import androidx.databinding.Bindable
 import androidx.databinding.BindingAdapter
@@ -59,11 +61,13 @@ class LandingViewModel(application: Application, private val weatherRepository: 
     private
     var currentLocation: String? = null
         set(value) {
-            field = value
-            notifyPropertyChanged(BR.currentLocation)
+            if (!value.equals("")) {
+                field = value
+                notifyPropertyChanged(BR.currentLocation)
+            }
         }
 
-    fun fetchDataFromServer(location: String) {
+    private fun fetchDataFromServer(location: String) {
         if (listingData.isEmpty()) {
             rootViewModel.setActionForUi(SHOW_LOADING)
             launch(coroutineContext) {
@@ -73,7 +77,7 @@ class LandingViewModel(application: Application, private val weatherRepository: 
                 updateAdapter(baseResponse)
                 notifyChange()
                 rootViewModel.setActionForUi(REFRESH_UI)
-                delay(900)
+                delay(850)
                 setActionForUi(SLIDE_UP_ANIMATION)
             }
         }
@@ -107,6 +111,18 @@ class LandingViewModel(application: Application, private val weatherRepository: 
 
     fun setRootViewModel(rootViewModel: RootViewModel) {
         this.rootViewModel = rootViewModel
+    }
+
+    fun actionAfterHavingLocation(location: Location, geocoder: Geocoder) {
+        fetchDataFromServer("${location.latitude},${location.longitude}")
+        try {
+            val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+            if (addresses != null && addresses.isNotEmpty()) {
+                currentLocation = addresses[0].locality
+            }
+        } catch (e: Exception) {
+            // No action required here
+        }
     }
 
 }

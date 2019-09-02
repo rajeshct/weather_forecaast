@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="loadingViewModel"
+            name="viewModel"
             type="com.weather.forecast.ui.landing.view_model.LoadingViewModel" />
     </data>
 
@@ -23,6 +23,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_loading"
-            bind:loadAnimation="@{loadingViewModel.showHideAnimation}" />
+            bind:loadAnimation="@{viewModel.showHideAnimation}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

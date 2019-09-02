@@ -2,11 +2,13 @@ package com.weather.forecast.utils.dependency
 
 import android.os.Handler
 import android.util.Log
+import com.google.android.gms.location.LocationRequest
 import com.weather.forecast.BuildConfig
 import com.weather.forecast.network.ApiService
 import com.weather.forecast.repository.WeatherRepository
 import com.weather.forecast.ui.landing.view_model.LandingViewModel
 import com.weather.forecast.ui.landing.view_model.LoadingViewModel
+import com.weather.forecast.ui.landing.view_model.RetryViewModel
 import com.weather.forecast.ui.root.RootViewModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -34,6 +36,11 @@ val remoteDataSourceModule = module {
     // Getting loading view model
     viewModel {
         LoadingViewModel(androidApplication())
+    }
+
+    // Get location request
+    single {
+        getLocationRequest()
     }
 
     // Getting debug interceptor
@@ -73,6 +80,20 @@ val remoteDataSourceModule = module {
         WeatherRepository(get())
     }
 
+    // Getting retry view model
+    viewModel {
+        RetryViewModel(androidApplication())
+    }
+
+}
+
+private fun getLocationRequest(): LocationRequest? {
+    val locationRequest = LocationRequest.create()
+    locationRequest.interval = 10000
+    locationRequest.fastestInterval = 5000
+    locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+    locationRequest.numUpdates = 1
+    return locationRequest
 }
 
 /**

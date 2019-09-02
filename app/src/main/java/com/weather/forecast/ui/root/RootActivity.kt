@@ -1,10 +1,14 @@
 package com.weather.forecast.ui.root
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import com.weather.forecast.R
 import com.weather.forecast.ui.base.BaseActivity
+import com.weather.forecast.ui.landing.fragments.RetryFragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class RootActivity : BaseActivity() {
 
@@ -16,6 +20,17 @@ class RootActivity : BaseActivity() {
         rootViewModel.getTriggerEventToView().observe(this, Observer {
 
         })
+    }
+
+    override fun onPermissionDenied(requestCode: Int) {
+        if (getActiveFragment() !is RetryFragment) {
+            findNavController(R.id.nav_host).navigate(R.id.action_landingFragment_to_retryFragment)
+        }
+    }
+
+    override fun getActiveFragment(): Fragment? {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host)
+        return navHostFragment?.childFragmentManager?.fragments?.get(0)
     }
 
 }

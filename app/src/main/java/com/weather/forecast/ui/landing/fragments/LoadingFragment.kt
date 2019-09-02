@@ -15,7 +15,9 @@ import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class LoadingFragment : BaseFragment<FragmentLoadingBinding>() {
+class LoadingFragment : BaseFragment<FragmentLoadingBinding, LoadingViewModel>() {
+
+
     private val rootViewModel: RootViewModel by sharedViewModel()
     private val loadingViewModel: LoadingViewModel by viewModel()
     private val handler: Handler by inject()
@@ -29,8 +31,12 @@ class LoadingFragment : BaseFragment<FragmentLoadingBinding>() {
         }
     }
 
+    override fun getViewModel(): LoadingViewModel {
+        return loadingViewModel
+    }
+
     override fun actionAfterViewCreated() {
-        getBinding().loadingViewModel = loadingViewModel
+        getBinding().viewModel = loadingViewModel
         observerRootChanges()
         closeLoaderAfterDelay()
     }

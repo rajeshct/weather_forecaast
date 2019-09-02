@@ -1,5 +1,6 @@
 package com.weather.forecast.ui.base
 
+import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import com.weather.forecast.BR
-import com.weather.forecast.utils.AutoClearValue
 
-abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
+abstract class BaseFragment<T : ViewDataBinding, VM : BaseViewModel> : Fragment() {
     private lateinit var binding: T
 
     override fun onCreateView(
@@ -19,12 +19,21 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         this.binding = DataBindingUtil.inflate(inflater, getLayout(), container, false)
+        this.binding.setVariable(BR.viewModel, getViewModel())
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         actionAfterViewCreated()
+    }
+
+    open fun onPermissionGranted(requestCode: Int) {
+
+    }
+
+    open fun currentLocation(location: Location) {
+
     }
 
     abstract fun actionAfterViewCreated()
@@ -34,5 +43,7 @@ abstract class BaseFragment<T : ViewDataBinding> : Fragment() {
     fun getBinding(): T {
         return binding
     }
+
+    abstract fun getViewModel(): VM
 
 }
