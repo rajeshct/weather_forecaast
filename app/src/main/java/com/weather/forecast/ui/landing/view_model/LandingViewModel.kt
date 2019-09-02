@@ -78,7 +78,7 @@ class LandingViewModel(application: Application, private val weatherRepository: 
                 updateAdapter(baseResponse)
                 notifyChange()
                 rootViewModel.setActionForUi(REFRESH_UI)
-                delay(1000)
+                delay(900)
                 setActionForUi(SLIDE_UP_ANIMATION)
             }
         }
