@@ -5,19 +5,16 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.weather.forecast.R
 import com.weather.forecast.databinding.FragmentRetryBinding
-import com.weather.forecast.ui.base.BaseActivity
 import com.weather.forecast.ui.base.BaseFragment
 import com.weather.forecast.ui.landing.view_model.RetryViewModel
-import com.weather.forecast.ui.root.RootViewModel
-import com.weather.forecast.utils.*
+import com.weather.forecast.utils.RETRY
+import com.weather.forecast.utils.isInternetConnectionAvailable
 import kotlinx.android.synthetic.main.fragment_retry.*
-import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RetryFragment : BaseFragment<FragmentRetryBinding, RetryViewModel>() {
 
     private val retryViewModel: RetryViewModel by viewModel()
-    private val rootViewModel: RootViewModel by sharedViewModel()
 
     override fun actionAfterViewCreated() {
         observeChange()
@@ -29,20 +26,7 @@ class RetryFragment : BaseFragment<FragmentRetryBinding, RetryViewModel>() {
                 RETRY -> {
                     context?.let {
                         if (isInternetConnectionAvailable(it)) {
-                            if (checkRuntimePermission(
-                                    PermissionConstants.PERMISSION_LOCATION_PARAM,
-                                    it
-                                )
-                            ) {
-                                openLandingScreen()
-                            } else {
-                                (it as BaseActivity).requestPermission(
-                                    PermissionConstants.PERMISSION_LOCATION_PARAM,
-                                    PERMISSION_LOCATION,
-                                    true
-                                )
-                                retryViewModel.setActionForUi(INVALID_ACTION)
-                            }
+                            openLandingScreen()
                         } else {
                             Snackbar.make(
                                 constraint_layout,
@@ -54,10 +38,6 @@ class RetryFragment : BaseFragment<FragmentRetryBinding, RetryViewModel>() {
                 }
             }
         })
-    }
-
-    override fun onPermissionGranted(requestCode: Int) {
-        openLandingScreen()
     }
 
     private fun openLandingScreen() {

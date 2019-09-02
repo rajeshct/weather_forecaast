@@ -89,9 +89,7 @@ class LandingFragment : BaseFragment<FragmentLandingBinding, LandingViewModel>()
 
     override fun showLoading(isImmediateHide: Boolean) {
         if (findNavController().currentDestination?.id != R.id.loadingFragment) {
-            val action = LandingFragmentDirections.actionLandingFragmentToLoadingFragment()
-            action.isHide = isImmediateHide
-            findNavController().navigate(action)
+            findNavController().navigate(R.id.action_landingFragment_to_loadingFragment)
         }
     }
 

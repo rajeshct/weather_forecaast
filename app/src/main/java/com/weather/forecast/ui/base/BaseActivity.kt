@@ -136,8 +136,12 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_LOCATION && resultCode == Activity.RESULT_OK) {
-            requestLocation()
+        if (requestCode == REQUEST_CODE_LOCATION) {
+            if (resultCode == Activity.RESULT_OK) {
+                requestLocation()
+            } else {
+                onPermissionDenied(requestCode)
+            }
         }
     }
 
