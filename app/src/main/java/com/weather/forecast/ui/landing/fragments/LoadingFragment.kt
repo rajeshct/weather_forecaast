@@ -26,9 +26,9 @@ class LoadingFragment : BaseFragment<FragmentLoadingBinding, LoadingViewModel>()
 
     private val runnable = Runnable {
         if (hideLoading) {
-            closeLoading()
-            isWaitingTimePassed = true
+            popFragment()
         }
+        isWaitingTimePassed = true
     }
 
     override fun getViewModel(): LoadingViewModel {
@@ -47,7 +47,8 @@ class LoadingFragment : BaseFragment<FragmentLoadingBinding, LoadingViewModel>()
                 REFRESH_UI -> {
                     hideLoading = true
                     if (isWaitingTimePassed) {
-                        closeLoading()
+                        popFragment()
+                        rootViewModel.setActionForUi(INVALID_ACTION)
                     }
                 }
                 ERROR_NO_RESPONSE -> {
@@ -59,9 +60,8 @@ class LoadingFragment : BaseFragment<FragmentLoadingBinding, LoadingViewModel>()
     }
 
 
-    private fun closeLoading() {
+    private fun popFragment() {
         findNavController().popBackStack()
-        rootViewModel.setActionForUi(INVALID_ACTION)
         handler.removeCallbacks(runnable)
     }
 

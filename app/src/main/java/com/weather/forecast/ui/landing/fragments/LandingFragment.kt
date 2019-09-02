@@ -1,7 +1,6 @@
 package com.weather.forecast.ui.landing.fragments
 
 import android.location.Geocoder
-import android.location.Location
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -33,7 +32,6 @@ class LandingFragment : BaseFragment<FragmentLandingBinding, LandingViewModel>()
     }
 
     override fun actionAfterViewCreated() {
-        getBinding().executePendingBindings()
         landingViewModel.setRootViewModel(rootViewModel)
         observeFragmentChanges()
         observeActivityChanges()
@@ -41,15 +39,17 @@ class LandingFragment : BaseFragment<FragmentLandingBinding, LandingViewModel>()
     }
 
     private fun callPermission() {
-        context?.let {
-            if (isInternetConnectionAvailable(it)) {
-                (it as BaseActivity).requestPermission(
-                    PermissionConstants.PERMISSION_LOCATION_PARAM,
-                    PERMISSION_LOCATION
-                    , false
-                )
-            } else {
-                findNavController().navigate(R.id.action_landingFragment_to_retryFragment)
+        if (landingViewModel.getLocation() == null) {
+            context?.let {
+                if (isInternetConnectionAvailable(it)) {
+                    (it as BaseActivity).requestPermission(
+                        PermissionConstants.PERMISSION_LOCATION_PARAM,
+                        PERMISSION_LOCATION
+                        , false
+                    )
+                } else {
+                    findNavController().navigate(R.id.action_landingFragment_to_retryFragment)
+                }
             }
         }
     }
@@ -62,25 +62,37 @@ class LandingFragment : BaseFragment<FragmentLandingBinding, LandingViewModel>()
         (context as BaseActivity).getUserLocation()
     }
 
-    override fun currentLocation(location: Location) {
-        landingViewModel.actionAfterHavingLocation(
-            location, Geocoder(context, Locale.getDefault())
-        )
-    }
-
     private fun observeActivityChanges() {
-        rootViewModel.getTriggerEventToView().observe(viewLifecycleOwner, Observer {
-            when (it) {
-                SHOW_LOADING -> {
-                    showLoading()
-                    rootViewModel.setActionForUi(INVALID_ACTION)
+        activity?.let { it ->
+            rootViewModel.getTriggerEventToView().observe(it, Observer { action ->
+                when (action) {
+                    LOCATION_FETCHED -> {
+                        rootViewModel.getCurrentLocation()?.let { it ->
+                            landingViewModel.actionAfterHavingLocation(
+                                it, Geocoder(context, Locale.getDefault())
+                            )
+                            rootViewModel.setActionForUi(INVALID_ACTION)
+                        }
+                    }
                 }
+            })
+        }
+
+        rootViewModel.getTriggerEventToView().observe(viewLifecycleOwner, Observer {
+            if (it == SHOW_LOADING) {
+                showLoading(false)
+                rootViewModel.setActionForUi(INVALID_ACTION)
             }
         })
+
     }
 
-    private fun showLoading() {
-        findNavController().navigate(R.id.action_landingFragment_to_loadingFragment)
+    override fun showLoading(isImmediateHide: Boolean) {
+        if (findNavController().currentDestination?.id != R.id.loadingFragment) {
+            val action = LandingFragmentDirections.actionLandingFragmentToLoadingFragment()
+            action.isHide = isImmediateHide
+            findNavController().navigate(action)
+        }
     }
 
     private fun slideUpAnimation() {

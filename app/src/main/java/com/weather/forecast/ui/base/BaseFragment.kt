@@ -1,6 +1,5 @@
 package com.weather.forecast.ui.base
 
-import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +31,7 @@ abstract class BaseFragment<T : ViewDataBinding, VM : BaseViewModel> : Fragment(
 
     }
 
-    open fun currentLocation(location: Location) {
+    open fun showLoading(isImmediateHide: Boolean) {
 
     }
 

@@ -10,4 +10,5 @@ const val SLIDE_UP_ANIMATION = 5
 const val API_FAILURE = "Parsing/invalid error from server"
 const val PERMISSION_LOCATION = 100
 const val REQUEST_CODE_LOCATION = 103
+const val LOCATION_FETCHED = 104
 const val INVALID_ACTION = -1

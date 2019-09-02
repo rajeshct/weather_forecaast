@@ -44,6 +44,7 @@ fun setLandingAdapter(recyclerView: RecyclerView, listingData: List<LandingData>
 
 class LandingViewModel(application: Application, private val weatherRepository: WeatherRepository) :
     BaseViewModel(application) {
+    private var location: Location? = null
     private val listingData: MutableList<LandingData> = mutableListOf()
 
     private lateinit var rootViewModel: RootViewModel
@@ -114,15 +115,22 @@ class LandingViewModel(application: Application, private val weatherRepository: 
     }
 
     fun actionAfterHavingLocation(location: Location, geocoder: Geocoder) {
-        fetchDataFromServer("${location.latitude},${location.longitude}")
-        try {
-            val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-            if (addresses != null && addresses.isNotEmpty()) {
-                currentLocation = addresses[0].locality
+        if (this.location == null) {
+            fetchDataFromServer("${location.latitude},${location.longitude}")
+            try {
+                val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                if (addresses != null && addresses.isNotEmpty()) {
+                    currentLocation = addresses[0].locality
+                }
+            } catch (e: Exception) {
+                // No action required here
             }
-        } catch (e: Exception) {
-            // No action required here
         }
+        this.location = location
+    }
+
+    fun getLocation(): Location? {
+        return location
     }
 
 }

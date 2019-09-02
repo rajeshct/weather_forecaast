@@ -14,6 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import com.weather.forecast.ui.landing.fragments.LoadingFragment
 import com.weather.forecast.utils.PERMISSION_LOCATION
 import com.weather.forecast.utils.PermissionConstants
 import com.weather.forecast.utils.REQUEST_CODE_LOCATION
@@ -51,10 +52,8 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    private fun setLocation(location: Location) {
-        if (getActiveFragment() is BaseFragment<*, *>) {
-            (getActiveFragment() as BaseFragment<*, *>).currentLocation(location)
-        }
+    open fun setLocation(location: Location) {
+
     }
 
     open fun onPermissionDenied(requestCode: Int) {
@@ -143,6 +142,9 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     private fun requestLocation() {
+        if (getActiveFragment() !is LoadingFragment) {
+            (getActiveFragment() as BaseFragment<*, *>).showLoading(true)
+        }
         fusedLocationProviderClient?.lastLocation?.addOnSuccessListener {
             if (it == null) {
                 getUpdatedLocation()
