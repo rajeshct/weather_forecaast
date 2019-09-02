@@ -62,7 +62,6 @@ class RetryFragment : BaseFragment<FragmentRetryBinding, RetryViewModel>() {
 
     private fun openLandingScreen() {
         findNavController().popBackStack()
-        rootViewModel.setActionForUi(PERMISSION_LOCATION_GRANTED)
     }
 
     override fun getViewModel(): RetryViewModel {

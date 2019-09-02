@@ -9,6 +9,5 @@ const val SHOW_LOADING = 4
 const val SLIDE_UP_ANIMATION = 5
 const val API_FAILURE = "Parsing/invalid error from server"
 const val PERMISSION_LOCATION = 100
-const val PERMISSION_LOCATION_GRANTED = 101
-const val REQUEST_CODE_LOCATION_FAIL = 103
+const val REQUEST_CODE_LOCATION = 103
 const val INVALID_ACTION = -1

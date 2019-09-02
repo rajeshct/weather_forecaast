@@ -72,14 +72,15 @@ class LandingFragment : BaseFragment<FragmentLandingBinding, LandingViewModel>()
         rootViewModel.getTriggerEventToView().observe(viewLifecycleOwner, Observer {
             when (it) {
                 SHOW_LOADING -> {
-                    findNavController().navigate(R.id.action_landingFragment_to_loadingFragment)
+                    showLoading()
                     rootViewModel.setActionForUi(INVALID_ACTION)
-                }
-                PERMISSION_LOCATION_GRANTED -> {
-                    getUserLocation()
                 }
             }
         })
+    }
+
+    private fun showLoading() {
+        findNavController().navigate(R.id.action_landingFragment_to_loadingFragment)
     }
 
     private fun slideUpAnimation() {

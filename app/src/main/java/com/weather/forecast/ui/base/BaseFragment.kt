@@ -46,4 +46,5 @@ abstract class BaseFragment<T : ViewDataBinding, VM : BaseViewModel> : Fragment(
 
     abstract fun getViewModel(): VM
 
+
 }

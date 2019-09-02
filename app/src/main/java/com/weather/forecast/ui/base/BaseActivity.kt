@@ -1,5 +1,6 @@
 package com.weather.forecast.ui.base
 
+import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
@@ -15,7 +16,7 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import com.weather.forecast.utils.PERMISSION_LOCATION
 import com.weather.forecast.utils.PermissionConstants
-import com.weather.forecast.utils.REQUEST_CODE_LOCATION_FAIL
+import com.weather.forecast.utils.REQUEST_CODE_LOCATION
 import com.weather.forecast.utils.checkRuntimePermission
 import org.koin.android.ext.android.inject
 
@@ -24,7 +25,6 @@ abstract class BaseActivity : AppCompatActivity() {
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
     private var requestCode = 0
     private var isShowSettingScreen = false
-    lateinit var permissionList: Array<String>
 
     fun requestPermission(
         permission: Array<String>,
@@ -33,7 +33,6 @@ abstract class BaseActivity : AppCompatActivity() {
     ) {
         this.requestCode = requestCode
         this.isShowSettingScreen = isShowSettingScreen
-        this.permissionList = permission
         if (checkRuntimePermission(
                 PermissionConstants.PERMISSION_LOCATION_PARAM,
                 this
@@ -97,15 +96,6 @@ abstract class BaseActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (::permissionList.isInitialized) {
-            if (checkRuntimePermission(permissionList, this)) {
-                onPermissionGranted(requestCode)
-            }
-        }
-    }
-
     private fun startSettingScreen() {
         val intent = Intent()
         intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
@@ -137,14 +127,18 @@ abstract class BaseActivity : AppCompatActivity() {
             if (it is ResolvableApiException) {
                 try {
                     val resolvable = it
-                    resolvable.startResolutionForResult(
-                        this,
-                        REQUEST_CODE_LOCATION_FAIL
-                    )
+                    resolvable.startResolutionForResult(this, REQUEST_CODE_LOCATION)
                 } catch (sendEx: IntentSender.SendIntentException) {
                     // Ignore the error.
                 }
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_LOCATION && resultCode == Activity.RESULT_OK) {
+            requestLocation()
         }
     }
 
