@@ -66,7 +66,7 @@ class LoadingFragment : BaseFragment<FragmentLoadingBinding, LoadingViewModel>()
     }
 
     private fun closeLoaderAfterDelay() {
-        handler.postDelayed(runnable, 1000L)
+        handler.postDelayed(runnable, 1200L)
     }
 
     override fun getLayout(): Int {
