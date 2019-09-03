@@ -29,7 +29,7 @@ class LoadingViewModel(application: Application) : BaseViewModel(application) {
         }
 
     override fun actionAfterHavingException(exception: Throwable) {
-
+        // No action required here
     }
 
     fun isShowHideAnimation() = showHideAnimation

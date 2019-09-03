@@ -22,18 +22,16 @@ class RetryFragment : BaseFragment<FragmentRetryBinding, RetryViewModel>() {
 
     private fun observeChange() {
         retryViewModel.getTriggerEventToView().observe(viewLifecycleOwner, Observer { action ->
-            when (action) {
-                RETRY -> {
-                    context?.let {
-                        if (isInternetConnectionAvailable(it)) {
-                            openLandingScreen()
-                        } else {
-                            Snackbar.make(
-                                constraint_layout,
-                                R.string.error_no_internet,
-                                Snackbar.LENGTH_SHORT
-                            ).show()
-                        }
+            if (action == RETRY) {
+                context?.let {
+                    if (isInternetConnectionAvailable(it)) {
+                        openLandingScreen()
+                    } else {
+                        Snackbar.make(
+                            constraint_layout,
+                            R.string.error_no_internet,
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }

@@ -53,10 +53,11 @@ abstract class BaseActivity : AppCompatActivity() {
     }
 
     open fun setLocation(location: Location) {
-
+        // Implemented by base classes
     }
 
     open fun onPermissionDenied(requestCode: Int) {
+        // Implemented by base classes
     }
 
     open fun getActiveFragment(): Fragment? {
@@ -72,25 +73,34 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
             PERMISSION_LOCATION -> {
-                var isAllPermissionGranted = true
-                var isOpenSettingScreen = false
-                for ((key, value) in grantResults.withIndex()) {
-                    if (value == PackageManager.PERMISSION_DENIED) {
-                        isAllPermissionGranted = false
-                        val showRational = shouldShowRequestPermissionRationale(permissions[key])
-                        if (!showRational) {
-                            isOpenSettingScreen = true
-                        }
-                    }
+                handlePermissionCase(grantResults, permissions, requestCode)
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun handlePermissionCase(
+        grantResults: IntArray,
+        permissions: Array<out String>,
+        requestCode: Int
+    ) {
+        var isAllPermissionGranted = true
+        var isOpenSettingScreen = false
+        for ((key, value) in grantResults.withIndex()) {
+            if (value == PackageManager.PERMISSION_DENIED) {
+                isAllPermissionGranted = false
+                val showRational = shouldShowRequestPermissionRationale(permissions[key])
+                if (!showRational) {
+                    isOpenSettingScreen = true
                 }
-                if (isAllPermissionGranted) {
-                    onPermissionGranted(requestCode)
-                } else {
-                    onPermissionDenied(requestCode)
-                    if (isOpenSettingScreen && isShowSettingScreen) {
-                        startSettingScreen()
-                    }
-                }
+            }
+        }
+        if (isAllPermissionGranted) {
+            onPermissionGranted(requestCode)
+        } else {
+            onPermissionDenied(requestCode)
+            if (isOpenSettingScreen && isShowSettingScreen) {
+                startSettingScreen()
             }
         }
     }

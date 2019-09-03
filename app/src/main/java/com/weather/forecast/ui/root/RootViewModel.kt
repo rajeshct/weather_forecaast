@@ -9,7 +9,7 @@ class RootViewModel(application: Application) : BaseViewModel(application) {
     private var location: Location? = null
 
     override fun actionAfterHavingException(exception: Throwable) {
-
+        // No action required here
     }
 
     fun setLocation(location: Location?) {

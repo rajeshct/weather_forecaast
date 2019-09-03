@@ -1,5 +1,6 @@
 package com.weather.forecast.utils
 
+const val API_DAY = "4"
 const val DATE_FORMAT_API = "yyyy-MM-dd"
 const val DATE_FORMAT_UI = "EEEE"
 const val RETRY = 1

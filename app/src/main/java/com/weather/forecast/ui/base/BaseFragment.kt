@@ -28,11 +28,12 @@ abstract class BaseFragment<T : ViewDataBinding, VM : BaseViewModel> : Fragment(
     }
 
     open fun onPermissionGranted(requestCode: Int) {
+        // Implemented by base classes
 
     }
 
     open fun showLoading(isImmediateHide: Boolean) {
-
+        // Implemented by base classes
     }
 
     abstract fun actionAfterViewCreated()

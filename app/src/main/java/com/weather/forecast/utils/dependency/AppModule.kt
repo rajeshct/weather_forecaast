@@ -28,19 +28,15 @@ val remoteDataSourceModule = module {
         Handler()
     }
 
-    // Getting landing view model
-    viewModel {
-        RootViewModel(androidApplication())
-    }
-
-    // Getting loading view model
-    viewModel {
-        LoadingViewModel(androidApplication())
-    }
 
     // Get location request
     single {
         getLocationRequest()
+    }
+
+    // Getting repository instance
+    single {
+        WeatherRepository(get())
     }
 
     // Getting debug interceptor
@@ -75,9 +71,14 @@ val remoteDataSourceModule = module {
         LandingViewModel(androidApplication(), get())
     }
 
-    // Getting repository instance
-    single {
-        WeatherRepository(get())
+    // Getting landing view model
+    viewModel {
+        RootViewModel(androidApplication())
+    }
+
+    // Getting loading view model
+    viewModel {
+        LoadingViewModel(androidApplication())
     }
 
     // Getting retry view model

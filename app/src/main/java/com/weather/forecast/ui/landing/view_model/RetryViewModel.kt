@@ -6,6 +6,7 @@ import com.weather.forecast.utils.RETRY
 
 class RetryViewModel(application: Application) : BaseViewModel(application) {
     override fun actionAfterHavingException(exception: Throwable) {
+        // No action required here
 
     }
 

@@ -65,14 +65,12 @@ class LandingFragment : BaseFragment<FragmentLandingBinding, LandingViewModel>()
     private fun observeActivityChanges() {
         activity?.let { it ->
             rootViewModel.getTriggerEventToView().observe(it, Observer { action ->
-                when (action) {
-                    LOCATION_FETCHED -> {
-                        rootViewModel.getCurrentLocation()?.let { it ->
-                            landingViewModel.actionAfterHavingLocation(
-                                it, Geocoder(context, Locale.getDefault())
-                            )
-                            rootViewModel.setActionForUi(INVALID_ACTION)
-                        }
+                if (action == LOCATION_FETCHED) {
+                    rootViewModel.getCurrentLocation()?.let { it ->
+                        landingViewModel.actionAfterHavingLocation(
+                            it, Geocoder(context, Locale.getDefault())
+                        )
+                        rootViewModel.setActionForUi(INVALID_ACTION)
                     }
                 }
             })
