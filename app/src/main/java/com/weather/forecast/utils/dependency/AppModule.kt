@@ -97,7 +97,5 @@ private fun getLocationRequest(): LocationRequest? {
     return locationRequest
 }
 
-/**
- * App Components
- */
+
 val appComponent: List<Module> = listOf(remoteDataSourceModule)
